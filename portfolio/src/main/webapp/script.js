@@ -21,7 +21,7 @@ function addRandomFact() {
       'I can still recite most of Hamlet\'s third soliloquy.', 
       'I have 7 pets.', 
       'I can dance a jig.'];
-    console.log(facts[2]);
+
   // Pick a random fact.
   const fact = facts[Math.floor(Math.random() * facts.length)];
 

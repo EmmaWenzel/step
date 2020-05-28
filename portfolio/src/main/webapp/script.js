@@ -27,10 +27,15 @@ function addRandomGreeting() {
   greetingContainer.innerText = greeting;
 }
 
-
+/**
+ * Adds a random fact to the page.
+ */
 function addRandomFact() {
   const facts =
-      ['I have over 20 pairs of sunglasses (that was a weird phase).', 'I can still recite most of Hamlet\'s third soliloquy.', 'I have 7 pets.', 'I can dance a jig.'];
+      ['I have over 20 pairs of sunglasses (that was a weird phase).', 
+      'I can still recite most of Hamlet\'s third soliloquy.', 
+      'I have 7 pets.', 
+      'I can dance a jig.'];
 
   // Pick a random fact.
   const fact = facts[Math.floor(Math.random() * facts.length)];

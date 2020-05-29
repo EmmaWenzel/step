@@ -14,3 +14,11 @@
   background-color: #f1f1f1;
 }
 
+.tab button {
+  background-color: #f1f1f1; 
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  font-size: 17px;
+}

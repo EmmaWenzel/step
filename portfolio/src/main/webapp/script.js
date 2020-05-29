@@ -31,7 +31,7 @@ function addRandomFact() {
 }
 
 /** 
-    Sets tab buttons display content 
+    Shows the content of the active tab
 */
 function openTab(tab) {
     let tabcontent;

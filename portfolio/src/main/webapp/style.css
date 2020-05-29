@@ -1,11 +1,18 @@
 #content {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
+  margin: auto;
+  width: 1000px;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 17px;
 }
 
 #greeting-container {
   margin-top: 20px;
+}
+
+#header{
+    font-family: Verdana, Geneva, sans-serif;
+    margin-left: 520px;
+    font-size: 30px;
 }
 
 .tab {
@@ -25,7 +32,7 @@
 
 .tabcontent {
   display: none;
-  padding: 6px 12px;
+  padding: 30px 50px;
   border: 1px solid;
   border-top: none;
 }

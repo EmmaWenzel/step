@@ -31,13 +31,13 @@ function addRandomFact() {
 }
 
 /** 
-    Sets tab buttons display content 
+    Shows the content of the active tab
 */
 function openTab(tab) {
     let tabcontent;
 
     // Hide each tab 
-    tabcontent = document.getElementsByClassName("tabcontent"); // get each tab labeled tab content
+    tabcontent = document.getElementsByClassName("tabcontent");
     for (let i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
     }

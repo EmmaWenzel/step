@@ -1,7 +1,7 @@
 #content {
   margin: auto;
   width: 1000px;
-  font-family: impact, black, serif;
+  font-family: Verdana, Geneva, sans-serif;
   font-size: 17px;
 }
 
@@ -10,7 +10,8 @@
 }
 
 #header{
-    margin-left: 550px;
+    font-family: Verdana, Geneva, sans-serif;
+    margin-left: 520px;
     font-size: 30px;
 }
 

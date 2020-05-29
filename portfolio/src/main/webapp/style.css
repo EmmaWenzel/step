@@ -7,3 +7,10 @@
 #greeting-container {
   margin-top: 20px;
 }
+
+.tab {
+  overflow: hidden; 
+  border: 1px solid;
+  background-color: #f1f1f1;
+}
+

@@ -30,3 +30,21 @@ function addRandomFact() {
   factContainer.innerText = fact;
 }
 
+/** 
+    Sets tab buttons display content 
+*/
+function openTab(tab) {
+    let tabcontent;
+
+    // Hide each tab 
+    tabcontent = document.getElementsByClassName("tabcontent"); // get each tab labeled tab content
+    for (let i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Show the current tab
+    currentTab = document.getElementById(tab);
+    currentTab.style.display = "block";
+}
+
+

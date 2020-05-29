@@ -47,4 +47,16 @@ function openTab(tab) {
     currentTab.style.display = "block";
 }
 
+/**
+    Fetches Hello Emma from the server and adds it to the page when
+    the say hello! button is clicked
+ */
+async function getHelloWorldUsingAsyncAwait() {
+    // fetches data from the server
+    const response = await fetch('/data');
+    // converts response to text 
+    const quote = await response.text();
+    // adds quote to the DOM
+    document.getElementById('quote-container').innerText = quote;
+}
 

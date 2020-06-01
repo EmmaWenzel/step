@@ -55,8 +55,7 @@ async function getHelloWorldUsingAsyncAwait() {
     // fetches data from the server
     const response = await fetch('/data');
     // converts response to text 
-    const quote = await response.text();
+    const quote = await response.json();
     // adds quote to the DOM
     document.getElementById('quote-container').innerText = quote;
 }
-

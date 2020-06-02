@@ -15,6 +15,7 @@
             <button onclick="openTab('About')">About Me</button>
             <button onclick="openTab('Projects')">Projects</button>
             <button onclick="openTab('More')">More Fun Stuff</button>
+            <button onclick="openTab('Comments')">Questions & Comments</button>
         </div> 
       <div id="About" class="tabcontent"> 
         <h2>About Me</h2>
@@ -74,10 +75,16 @@
             Louis. I found Louis at Le Mont-Saint-Michel. He posed for my picture.
         </p>
         <img src="/images/IMG_5916.JPG" alt="seagull?" width = "300">
-        <br>
-        <br>
-        <button onclick="getHelloWorldUsingAsyncAwait()">Say Hello!</button>
-        <div id="quote-container"></div>
+        </div>
+        <div id ="Comments" class = "tabcontent">
+            <br>
+            <form action ="/data" method = "POST">
+                <div>
+                    <label>Have any questions or comments? </label>
+                    <input type="text" name ="user-comment" placeholder="Submit them here!">
+                    <input type = "submit" name = "submit" value ="submit">
+                </div>
+            </form>
         </div>
       </div>
     </div>

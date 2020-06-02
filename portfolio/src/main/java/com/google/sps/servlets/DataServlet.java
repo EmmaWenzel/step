@@ -27,14 +27,17 @@ import java.util.ArrayList;
 public class DataServlet extends HttpServlet {
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    ArrayList<String> hardCode = new ArrayList<String>();
-    hardCode.add("message one");
-    hardCode.add("message two");
-    hardCode.add("message three");
-    Gson gson = new Gson();
-    String json = gson.toJson(hardCode);
-    response.setContentType("text/html;");
-    response.getWriter().println(json);
+
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+      String userComment = getComment(request);
+      ArrayList<String> commentArray = new ArrayList<String>();
+      commentArray.add(userComment);
+      response.sendRedirect("/index.html");
   }
+
+  private String getComment(HttpServletRequest request){
+      String userComment = request.getParameter("user-comment");
+      return userComment;
+  }
+
 }

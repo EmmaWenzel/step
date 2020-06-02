@@ -30,7 +30,6 @@ import java.util.ArrayList;
 public class DataServlet extends HttpServlet {
 
   @Override
-
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
       // store user comment 
@@ -40,12 +39,10 @@ public class DataServlet extends HttpServlet {
       System.out.println(commentArray);
 
       // get entity properties
-      String title = request.getParameter("title");
       long timestamp = System.currentTimeMillis();
 
       // create entity
       Entity taskEntity = new Entity("Task");
-      taskEntity.setProperty("title", title);
       taskEntity.setProperty("timestamp", timestamp);
       taskEntity.setProperty("stringValue", userComment);
 

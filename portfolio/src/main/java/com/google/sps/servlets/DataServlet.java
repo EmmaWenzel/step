@@ -14,6 +14,9 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,9 +32,27 @@ public class DataServlet extends HttpServlet {
   @Override
 
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+      // store user comment 
       String userComment = getComment(request);
       ArrayList<String> commentArray = new ArrayList<String>();
       commentArray.add(userComment);
+      System.out.println(commentArray);
+
+      // get entity properties
+      String title = request.getParameter("title");
+      long timestamp = System.currentTimeMillis();
+
+      // create entity
+      Entity taskEntity = new Entity("Task");
+      taskEntity.setProperty("title", title);
+      taskEntity.setProperty("timestamp", timestamp);
+      taskEntity.setProperty("stringValue", userComment);
+
+      // store entity
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      datastore.put(taskEntity);
+
       response.sendRedirect("/index.html");
   }
 

@@ -36,7 +36,6 @@ public class DataServlet extends HttpServlet {
       String userComment = getComment(request);
       ArrayList<String> commentArray = new ArrayList<String>();
       commentArray.add(userComment);
-      System.out.println(commentArray);
 
       // get entity properties
       long timestamp = System.currentTimeMillis();

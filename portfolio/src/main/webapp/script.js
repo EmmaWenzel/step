@@ -55,11 +55,20 @@ function loadComments() {
 /** Creates a list item that contains the comment */
 function createCommentElement(comment){
 
+  // create list elements
   const commentElement = document.createElement('li');
-  const userCommentElement = document.createElement('span');
-  userCommentElement.innerText = comment.userComment;
+  const userCommentElement = document.createElement('div');
+  const userNameElement = document.createElement('div');
+  const commentSpacing = document.createElement('br');
 
+  // populate list elements with name and comment
+  userCommentElement.innerText = comment.userComment;
+  userNameElement.innerText = ("-" + comment.userName);
+  
+  // add to list item
   commentElement.appendChild(userCommentElement);
+  commentElement.appendChild(userNameElement);
+  commentElement.appendChild(commentSpacing);
   return commentElement;
 }
 

@@ -77,23 +77,27 @@
         <img src="/images/IMG_5916.JPG" alt="seagull?" width = "300">
         </div>
         <div id ="Comments" class = "tabcontent">
-            <br>
+            <h3>Have any questions or comments?</h3>
             <form action ="/data" method = "POST">
                 <div>
-                    <label>Have any questions or comments? </label>
+                    <label>Comment:</label>
                     <input type="text" name ="user-comment" placeholder="Submit them here!">
+                     <label>Name:</label>
+                     <input type="text" name="user-name">
                     <input type = "submit" name = "submit" value ="submit">
+                    <br>
                     <br>
                     <label>How many previous comments would you like displayed?</label>
                     <input type="number" name="comment-number" min ="0" value = "5">
                 </div>
             </form>
+            <br>
             <button onclick="deleteComments()">Delete all comments</button>
             <br>
             <body onload="loadComments()">
                 <h3>Previous Comments</h3>
-                <hr/>
-                <ul id="comment-list"></ul>
+                <hr>
+                <ol id="comment-list"></ol>
             </body>
         </div>
       </div>

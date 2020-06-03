@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that adds and removes comments from the page */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   
@@ -135,6 +135,5 @@ public class DataServlet extends HttpServlet {
 
     return numComments;
   }
-
 
 }

@@ -37,11 +37,13 @@ public class DataServlet extends HttpServlet {
     private final long id;
     private final long timestamp;
     private final String userComment;
+    private final String userName;
 
-    private Comment(long id, String userComment, long timestamp) {
+    private Comment(long id, String userComment, long timestamp, String userName) {
         this.id = id;
         this.userComment = userComment;
         this.timestamp = timestamp;
+        this.userName = userName;
     }
   }
   
@@ -73,7 +75,8 @@ public class DataServlet extends HttpServlet {
         long id = entity.getKey().getId();
         long timestamp = (long) entity.getProperty("timestamp");
         String userComment = (String) entity.getProperty("stringValue");
-        Comment comment = new Comment(id, userComment, timestamp);
+        String userName = (String) entity.getProperty("userName");
+        Comment comment = new Comment(id, userComment, timestamp, userName);
         comments.add(comment);
         commentsAdded++;
       }
@@ -94,6 +97,9 @@ public class DataServlet extends HttpServlet {
       String userComment = getComment(request);
       ArrayList<String> commentArray = new ArrayList<String>();
       commentArray.add(userComment);
+
+      // get user name
+      String userName = getName(request);
       
       // get number of comments to print
       int numComments = getNumComments(request);
@@ -106,6 +112,7 @@ public class DataServlet extends HttpServlet {
       commentEntity.setProperty("timestamp", timestamp);
       commentEntity.setProperty("stringValue", userComment);
       commentEntity.setProperty("numComments", numComments);
+      commentEntity.setProperty("userName", userName);
 
       // store entity
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -118,6 +125,12 @@ public class DataServlet extends HttpServlet {
   private String getComment(HttpServletRequest request){
       String userComment = request.getParameter("user-comment");
       return userComment;
+  }
+
+  /** Gets user name from the page */
+  private String getName(HttpServletRequest request){
+      String userName = request.getParameter("user-name");
+      return userName;
   }
 
   /** Gets number of comments to print */

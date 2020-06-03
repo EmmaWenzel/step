@@ -43,7 +43,7 @@ function openTab(tab) {
 }
 
 /** Fetches comments from the server and adds them to the page */
-async function loadComments() {
+function loadComments() {
     fetch('/data').then(response => response.json()).then((comments) => {
         const commentListElement = document.getElementById('comment-list');
         comments.forEach((comment) => {
@@ -61,4 +61,10 @@ function createCommentElement(comment){
 
   commentElement.appendChild(userCommentElement);
   return commentElement;
+}
+
+/** Tells the server to delete all comments. */
+function deleteComments() {
+  fetch('/delete-comments', {method: 'POST'});
+  window.location.reload();
 }

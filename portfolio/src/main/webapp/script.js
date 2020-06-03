@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random fact to the page.
- */
+/** Adds a random fact to the page. */
 function addRandomFact() {
   const facts =
       ['I have over 20 pairs of sunglasses (that was a weird phase).', 
@@ -30,9 +28,7 @@ function addRandomFact() {
   factContainer.innerText = fact;
 }
 
-/** 
-    Shows the content of the active tab
-*/
+/** Shows the content of the active tab */
 function openTab(tab) {
     let tabcontent;
 
@@ -41,21 +37,28 @@ function openTab(tab) {
     for (let i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
     }
-
     // Show the current tab
     currentTab = document.getElementById(tab);
     currentTab.style.display = "block";
 }
 
-/**
-    Fetches Hello Emma from the server and adds it to the page when
-    the say hello! button is clicked
- */
-async function getHelloWorldUsingAsyncAwait() {
-    // fetches data from the server
-    const response = await fetch('/data');
-    // converts response to text 
-    const quote = await response.json();
-    // adds quote to the DOM
-    document.getElementById('quote-container').innerText = quote;
+/** Fetches comments from the server and adds them to the page */
+async function loadComments() {
+    fetch('/data').then(response => response.json()).then((comments) => {
+        const commentListElement = document.getElementById('comment-list');
+        comments.forEach((comment) => {
+          commentListElement.appendChild(createCommentElement(comment))
+        })
+    });
+}
+
+/** Creates a list item that contains the comment */
+function createCommentElement(comment){
+
+  const commentElement = document.createElement('li');
+  const userCommentElement = document.createElement('span');
+  userCommentElement.innerText = comment.userComment;
+
+  commentElement.appendChild(userCommentElement);
+  return commentElement;
 }

@@ -122,16 +122,14 @@ public class DataServlet extends HttpServlet {
   private int getNumComments(HttpServletRequest request) {
 
     String numCommentsString = request.getParameter("comment-number");
-    int numComments;
 
     // ensures the number of comments is not null
     if(numCommentsString == null) {
-        numComments = 0;
+        return 0;
     } else {
-        numComments = Integer.parseInt(numCommentsString);
+        return Integer.parseInt(numCommentsString);
     }
 
-    return numComments;
   }
 
 }

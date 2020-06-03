@@ -59,7 +59,6 @@ public class DataServlet extends HttpServlet {
 
     long numComments = 0;
     boolean firstComment = true;
-    long commentsAdded = 0;
 
     // stores each comment in a comment object
     // for the last commment submitted, stores the number of comments to print
@@ -68,16 +67,15 @@ public class DataServlet extends HttpServlet {
     for (Entity entity : results.asIterable()) {
       if(firstComment){
           numComments = (long) entity.getProperty("numComments");
+          firstComment = false;
       }
-      if(commentsAdded < numComments){
+      if(comments.size() < numComments){
         long id = entity.getKey().getId();
         long timestamp = (long) entity.getProperty("timestamp");
         String userComment = (String) entity.getProperty("stringValue");
         Comment comment = new Comment(id, userComment, timestamp);
         comments.add(comment);
-        commentsAdded++;
       }
-      firstComment = false;
     }
 
     // translate to JSON for loadComments function

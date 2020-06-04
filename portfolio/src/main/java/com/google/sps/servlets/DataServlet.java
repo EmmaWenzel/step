@@ -57,13 +57,13 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    // store each comment in a comment object
+    // stores each comment in a comment object
     ArrayList<Comment> comments = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
       long id = entity.getKey().getId();
       long timestamp = (long) entity.getProperty("timestamp");
       String userComment = (String) entity.getProperty("stringValue");
-      
+
       Comment comment = new Comment(id, userComment, timestamp);
       comments.add(comment);
     }

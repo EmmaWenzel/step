@@ -82,9 +82,19 @@
                 <div>
                     <label>Have any questions or comments? </label>
                     <input type="text" name ="user-comment" placeholder="Submit them here!">
-                    <input type = "submit" name = "submit" value ="submit">
+                    <input type = "submit" name = "submit" value ="Submit">
                 </div>
             </form>
+            <form action="/load-comments" method="POST">
+                <div>
+                    <label>How many previous comments would you like displayed?</label>
+                    <input type="number" name="comment-number" min ="0" value = "5">
+                   <br>
+                    <input type = "submit" name = "submit" value ="Load Comments">
+                </div>
+            </form>
+            <br>
+            <button onclick="deleteComments()">Delete all comments</button>
             <br>
             <body onload="loadComments()">
                 <h3>Previous Comments</h3>

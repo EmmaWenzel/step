@@ -42,13 +42,23 @@ function openTab(tab) {
     currentTab.style.display = "block";
 }
 
-/** Fetches comments from the server and adds them to the page */
+/** 
+* Fetches number of comments to load, then fetches comments from the server 
+* and adds the requested number to the page 
+*/
 function loadComments() {
-    fetch('/data').then(response => response.json()).then((comments) => {
-        const commentListElement = document.getElementById('comment-list');
-        comments.forEach((comment) => {
-          commentListElement.appendChild(createCommentElement(comment))
-        })
+    fetch('/load-comments').then(response => response.text()).then((numToLoad) => {
+        fetch('/data').then(response => response.json()).then((comments) => {
+            const commentListElement = document.getElementById('comment-list');
+            for(i = 0; i < numToLoad; i++){
+                comment = createCommentElement(comments[i]);
+                if(comment){
+                    commentListElement.appendChild(comment);
+                }else{
+                    numToLoad++;
+                }
+            }
+        });
     });
 }
 
@@ -61,23 +71,27 @@ function createCommentElement(comment){
   const userNameElement = document.createElement('div');
   const commentSpacing = document.createElement('br');
   
+  empty = false;
   // deal with empty inputs
-  if(comment.userComment == ""){
-      comment.userComment = "No comment";
-  } 
   if(comment.userName == "" || comment.userName == undefined){
       comment.userName = "Anonymous";
   }
+  if(comment.userComment == ""){
+      empty = true;
+  } 
 
-  // populate list elements with name and comment
-  userCommentElement.innerText = comment.userComment;
-  userNameElement.innerText = ("-" + comment.userName);
+  if(!empty){
+    // populate list elements with name and comment
+    userCommentElement.innerText = comment.userComment;
+    userNameElement.innerText = ("-" + comment.userName);
   
-  // add to list item
-  commentElement.appendChild(userCommentElement);
-  commentElement.appendChild(userNameElement);
-  commentElement.appendChild(commentSpacing);
-  return commentElement;
+    // add to list item
+    commentElement.appendChild(userCommentElement);
+    commentElement.appendChild(userNameElement);
+    commentElement.appendChild(commentSpacing);
+    return commentElement;
+  }
+  return null;
 }
 
 /** Tells the server to delete all comments. */

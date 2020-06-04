@@ -81,15 +81,17 @@
             <form action ="/data" method = "POST">
                 <div>
                     <label>Comment:</label>
-                    <input type="text" name ="user-comment" placeholder="Submit them here!">
-                   <label>Name:</label>
-                   <input type="text" name="user-name">
-                    <br>
-                    <label>How many previous comments would you like displayed?</label>
-                    <input type="number" name="comment-number" min ="0" value = "5">
-                   <br>
+                    <input type="text" name ="user-comment" placeholder="Submit them here!" minlength="3">
+                    <label>Name:</label>
+                    <input type="text" name="user-name" minlength="3">
                     <input type = "submit" name = "submit" value ="Submit">
                     <br>
+            </form>
+            <form action="/load-comments" method="POST">
+                <div>
+                    <label>How many previous comments would you like displayed?</label>
+                    <input type="number" name="comment-number" min ="0" value = "5">
+                    <input type = "submit" name = "submit" value ="Load Comments">
                 </div>
             </form>
             <br>

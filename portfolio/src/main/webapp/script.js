@@ -60,10 +60,20 @@ function createCommentElement(comment){
   const userCommentElement = document.createElement('div');
   const userNameElement = document.createElement('div');
   const commentSpacing = document.createElement('br');
+  
+  // deal with empty inputs
+  if(comment.userComment == ""){
+      comment.userComment = "No comment";
+  } 
+  if(comment.userName == ""){
+      comment.userName = "Anonymous";
+  }
 
   // populate list elements with name and comment
   userCommentElement.innerText = comment.userComment;
+  console.log(comment.userComment);
   userNameElement.innerText = ("-" + comment.userName);
+  console.log(comment.userName);
   
   // add to list item
   commentElement.appendChild(userCommentElement);

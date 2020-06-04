@@ -57,25 +57,15 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    long numComments = 0;
-    boolean firstComment = true;
-
     // stores each comment in a comment object
-    // for the last commment submitted, stores the number of comments to print
-    // only creates a comment object for the given number of comments to print
     ArrayList<Comment> comments = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
-      if(firstComment){
-          numComments = (long) entity.getProperty("numComments");
-          firstComment = false;
-      }
-      if(comments.size() < numComments){
-        long id = entity.getKey().getId();
-        long timestamp = (long) entity.getProperty("timestamp");
-        String userComment = (String) entity.getProperty("stringValue");
-        Comment comment = new Comment(id, userComment, timestamp);
-        comments.add(comment);
-      }
+      long id = entity.getKey().getId();
+      long timestamp = (long) entity.getProperty("timestamp");
+      String userComment = (String) entity.getProperty("stringValue");
+
+      Comment comment = new Comment(id, userComment, timestamp);
+      comments.add(comment);
     }
 
     // translate to JSON for loadComments function
@@ -92,9 +82,6 @@ public class DataServlet extends HttpServlet {
       String userComment = getComment(request);
       ArrayList<String> commentArray = new ArrayList<String>();
       commentArray.add(userComment);
-      
-      // get number of comments to print
-      int numComments = getNumComments(request);
 
       // get entity properties
       long timestamp = System.currentTimeMillis();
@@ -103,7 +90,6 @@ public class DataServlet extends HttpServlet {
       Entity commentEntity = new Entity("Comment");
       commentEntity.setProperty("timestamp", timestamp);
       commentEntity.setProperty("stringValue", userComment);
-      commentEntity.setProperty("numComments", numComments);
 
       // store entity
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -116,20 +102,6 @@ public class DataServlet extends HttpServlet {
   private String getComment(HttpServletRequest request){
       String userComment = request.getParameter("user-comment");
       return userComment;
-  }
-
-  /** Gets number of comments to print */
-  private int getNumComments(HttpServletRequest request) {
-
-    String numCommentsString = request.getParameter("comment-number");
-
-    // ensures the number of comments is not null
-    if(numCommentsString == null) {
-        return 0;
-    } else {
-        return Integer.parseInt(numCommentsString);
-    }
-
   }
 
 }

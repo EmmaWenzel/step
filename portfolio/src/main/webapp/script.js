@@ -42,13 +42,18 @@ function openTab(tab) {
     currentTab.style.display = "block";
 }
 
-/** Fetches comments from the server and adds them to the page */
+/** 
+* Fetches number of comments to load, then fetches comments from the server 
+* and adds the requested number to the page 
+*/
 function loadComments() {
-    fetch('/data').then(response => response.json()).then((comments) => {
-        const commentListElement = document.getElementById('comment-list');
-        comments.forEach((comment) => {
-          commentListElement.appendChild(createCommentElement(comment))
-        })
+    fetch('/load-comments').then(response => response.text()).then((numToLoad) => {
+        fetch('/data').then(response => response.json()).then((comments) => {
+            const commentListElement = document.getElementById('comment-list');
+            for(i = 0; i < numToLoad; i++){
+                commentListElement.appendChild(createCommentElement(comments[i]))
+            }
+        });
     });
 }
 

@@ -27,6 +27,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import com.google.appengine.api.datastore.FetchOptions;
 
 /** Servlet responsible for loading comments. */
 @WebServlet("/load-comments")
@@ -44,14 +46,11 @@ public class LoadCommentsServlet extends HttpServlet {
     PreparedQuery results = datastore.prepare(query);
 
     // get the most recent number submitted
-    long numComments = 0;
-    boolean first = true;
-    for (Entity entity : results.asIterable()) {
-      if(first == true){
-        numComments = (long) entity.getProperty("number");
-        first = false;
-      }
-    }
+    int maxComments = 1;
+    List<Entity> resultsList = results.asList(FetchOptions.Builder.withLimit(maxComments));
+    Entity entity = resultsList.get(0);
+    long numComments = (long) entity.getProperty("number");
+
     response.getWriter().println(numComments);     
   }
 

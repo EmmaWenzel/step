@@ -82,11 +82,15 @@
                 <div>
                     <label>Have any questions or comments? </label>
                     <input type="text" name ="user-comment" placeholder="Submit them here!">
-                    <br>
+                    <input type = "submit" name = "submit" value ="Submit">
+                </div>
+            </form>
+            <form action="/load-comments" method="POST">
+                <div>
                     <label>How many previous comments would you like displayed?</label>
                     <input type="number" name="comment-number" min ="0" value = "5">
                    <br>
-                    <input type = "submit" name = "submit" value ="Submit">
+                    <input type = "submit" name = "submit" value ="Load Comments">
                 </div>
             </form>
             <br>

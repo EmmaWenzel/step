@@ -65,15 +65,13 @@ function createCommentElement(comment){
   if(comment.userComment == ""){
       comment.userComment = "No comment";
   } 
-  if(comment.userName == ""){
+  if(comment.userName == "" || comment.userName == undefined){
       comment.userName = "Anonymous";
   }
 
   // populate list elements with name and comment
   userCommentElement.innerText = comment.userComment;
-  console.log(comment.userComment);
   userNameElement.innerText = ("-" + comment.userName);
-  console.log(comment.userName);
   
   // add to list item
   commentElement.appendChild(userCommentElement);

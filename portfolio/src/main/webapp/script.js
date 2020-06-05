@@ -50,7 +50,7 @@ function loadComments() {
     fetch('/load-comments').then(response => response.text()).then((numToLoad) => {
         fetch('/data').then(response => response.json()).then((comments) => {
             const commentListElement = document.getElementById('comment-list');
-            for(i = 0; i < numToLoad; i++){
+            for(i = 0; i < numToLoad && i < comments.length; i++){
                 commentListElement.appendChild(createCommentElement(comments[i]));
             }
         });

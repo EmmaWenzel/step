@@ -1,12 +1,9 @@
 #content {
   margin: auto;
-  width: 1000px;
+  width: 900px;
   font-family: Verdana, Geneva, sans-serif;
   font-size: 17px;
-}
-
-#greeting-container {
-  margin-top: 20px;
+  padding: 30px 50px;
 }
 
 #header{
@@ -16,23 +13,33 @@
 }
 
 .tab {
+  margin-left:-50px;
+  width: 1000px;
   overflow: hidden; 
   border: 1px solid;
   background-color: #f1f1f1;
+  padding: 14px 16px;
+  font-size: 17px;
 }
 
-.tab button {
+.tab a {
   background-color: #f1f1f1; 
   border: none;
   outline: none;
   cursor: pointer;
   padding: 14px 16px;
   font-size: 17px;
+  text-decoration: none;
+  color: black;
 }
 
-.tabcontent {
-  display: none;
-  padding: 30px 50px;
-  border: 1px solid;
-  border-top: none;
+.tab a:visited {
+  background-color: #f1f1f1; 
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  font-size: 17px;
+  text-decoration: none;
+  color: black;
 }

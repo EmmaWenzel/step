@@ -51,12 +51,7 @@ function loadComments() {
         fetch('/data').then(response => response.json()).then((comments) => {
             const commentListElement = document.getElementById('comment-list');
             for(i = 0; i < numToLoad; i++){
-                comment = createCommentElement(comments[i]);
-                if(comment){
-                    commentListElement.appendChild(comment);
-                }else{
-                    numToLoad++;
-                }
+                commentListElement.appendChild(createCommentElement(comments[i]));
             }
         });
     });
@@ -64,34 +59,27 @@ function loadComments() {
 
 /** Creates a list item that contains the comment */
 function createCommentElement(comment){
-
+  
   // create list elements
   const commentElement = document.createElement('li');
   const userCommentElement = document.createElement('div');
   const userNameElement = document.createElement('div');
   const commentSpacing = document.createElement('br');
   
-  empty = false;
-  // deal with empty inputs
+  // deal with anonymous inputs
   if(comment.userName == "" || comment.userName == undefined){
       comment.userName = "Anonymous";
   }
-  if(comment.userComment == ""){
-      empty = true;
-  } 
 
-  if(!empty){
-    // populate list elements with name and comment
-    userCommentElement.innerText = comment.userComment;
-    userNameElement.innerText = ("-" + comment.userName);
+  // populate list elements with name and comment
+  userCommentElement.innerText = comment.userComment;
+  userNameElement.innerText = ("-" + comment.userName);
   
-    // add to list item
-    commentElement.appendChild(userCommentElement);
-    commentElement.appendChild(userNameElement);
-    commentElement.appendChild(commentSpacing);
-    return commentElement;
-  }
-  return null;
+  // add to list item
+  commentElement.appendChild(userCommentElement);
+  commentElement.appendChild(userNameElement);
+  commentElement.appendChild(commentSpacing);
+  return commentElement;
 }
 
 /** Tells the server to delete all comments. */

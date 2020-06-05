@@ -28,20 +28,6 @@ function addRandomFact() {
   factContainer.innerText = fact;
 }
 
-/** Shows the content of the active tab */
-function openTab(tab) {
-    let tabcontent;
-
-    // Hide each tab 
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (let i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-    // Show the current tab
-    currentTab = document.getElementById(tab);
-    currentTab.style.display = "block";
-}
-
 /** 
 * Fetches number of comments to load, then fetches comments from the server 
 * and adds the requested number to the page 

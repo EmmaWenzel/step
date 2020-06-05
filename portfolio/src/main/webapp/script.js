@@ -50,8 +50,8 @@ function loadComments() {
     fetch('/load-comments').then(response => response.text()).then((numToLoad) => {
         fetch('/data').then(response => response.json()).then((comments) => {
             const commentListElement = document.getElementById('comment-list');
-            for(i = 0; i < numToLoad; i++){
-                commentListElement.appendChild(createCommentElement(comments[i]))
+            for(i = 0; i < numToLoad && i < comments.length; i++){
+                commentListElement.appendChild(createCommentElement(comments[i]));
             }
         });
     });
@@ -59,12 +59,26 @@ function loadComments() {
 
 /** Creates a list item that contains the comment */
 function createCommentElement(comment){
-
+  
+  // create list elements
   const commentElement = document.createElement('li');
-  const userCommentElement = document.createElement('span');
-  userCommentElement.innerText = comment.userComment;
+  const userCommentElement = document.createElement('div');
+  const userNameElement = document.createElement('div');
+  const commentSpacing = document.createElement('br');
+  
+  // deal with anonymous inputs
+  if(comment.userName == "" || comment.userName == undefined){
+      comment.userName = "Anonymous";
+  }
 
+  // populate list elements with name and comment
+  userCommentElement.innerText = comment.userComment;
+  userNameElement.innerText = ("-" + comment.userName);
+  
+  // add to list item
   commentElement.appendChild(userCommentElement);
+  commentElement.appendChild(userNameElement);
+  commentElement.appendChild(commentSpacing);
   return commentElement;
 }
 

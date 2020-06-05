@@ -64,7 +64,7 @@ public class DataServlet extends HttpServlet {
     for (Entity entity : results.asIterable()) {
       long id = entity.getKey().getId();
       long timestamp = (long) entity.getProperty("timestamp");
-      String userComment = (String) entity.getProperty("stringValue");
+      String userComment = (String) entity.getProperty("userComment");
       String userName = (String) entity.getProperty("userName");
 
       Comment comment = new Comment(id, userComment, timestamp, userName);
@@ -81,22 +81,11 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-      // store user comment 
-      String userComment = getComment(request);
-      ArrayList<String> commentArray = new ArrayList<String>();
-      commentArray.add(userComment);
-
-      // get user name
-      String userName = getName(request);
-
-      // get entity properties
-      long timestamp = System.currentTimeMillis();
-
       // create entity
       Entity commentEntity = new Entity("Comment");
-      commentEntity.setProperty("timestamp", timestamp);
-      commentEntity.setProperty("stringValue", userComment);
-      commentEntity.setProperty("userName", userName);
+      commentEntity.setProperty("timestamp", System.currentTimeMillis());
+      commentEntity.setProperty("userComment", request.getParameter("user-comment"));
+      commentEntity.setProperty("userName", request.getParameter("user-name"));
 
       // store entity
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -104,16 +93,5 @@ public class DataServlet extends HttpServlet {
 
       response.sendRedirect("/index.html");
   }
-  
-  /** Gets user comment from the page */
-  private String getComment(HttpServletRequest request){
-      String userComment = request.getParameter("user-comment");
-      return userComment;
-  }
 
-  /** Gets user name from the page */
-  private String getName(HttpServletRequest request){
-      String userName = request.getParameter("user-name");
-      return userName;
-  }
 }

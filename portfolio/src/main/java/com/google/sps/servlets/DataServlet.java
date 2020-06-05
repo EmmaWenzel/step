@@ -78,6 +78,7 @@ public class DataServlet extends HttpServlet {
   }
 
   /** Stores user comments in Datastore using entities */
+  /**TODO: constrain user imput*/
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 

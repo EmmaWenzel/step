@@ -17,7 +17,7 @@
             <button onclick="openTab('More')">More Fun Stuff</button>
             <button onclick="openTab('Comments')">Questions & Comments</button>
         </div> 
-      <div id="About" class="tabcontent"> 
+    <div id="About" class="tabcontent"> 
         <h2>About Me</h2>
         <p>
             My name is Emma Wenzel; I'm a STEP intern with Google for summer 2020. 
@@ -78,19 +78,19 @@
         </div>
         <div id ="Comments" class = "tabcontent">
             <h3>Have any questions or comments?</h3>
-            <form action ="/data" method = "POST">
+            <form action ="/data" method = "POST" onsubmit="openTab('Comments')">
                 <div>
                     <label>Comment:</label>
-                    <input type="text" name ="user-comment" placeholder="Submit them here!" minlength="3">
+                    <input type="text" name ="user-comment" placeholder="Submit them here!" required>
                     <label>Name:</label>
-                    <input type="text" name="user-name" minlength="3">
+                    <input type="text" name="user-name" placeholder="Anonymous">
                     <input type = "submit" name = "submit" value ="Submit">
                     <br>
             </form>
-            <form action="/load-comments" method="POST">
+            <form action="/load-comments" method="POST" onsubmit="openTab('Comments')">
                 <div>
                     <label>How many previous comments would you like displayed?</label>
-                    <input type="number" name="comment-number" min ="0" value = "5">
+                    <input type="number" name="comment-number" min ="0" required>
                     <input type = "submit" name = "submit" value ="Load Comments">
                 </div>
             </form>

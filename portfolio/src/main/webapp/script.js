@@ -73,3 +73,30 @@ function deleteComments() {
   fetch('/delete-comments', {method: 'POST'});
   window.location.reload();
 }
+
+
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(birdChart);
+
+/** Creates a chart and adds it to the page */
+function birdChart(){
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Bird');
+    data.addColumn('number', 'Species Count');
+    data.addRows([
+        ['Ducks', 42],
+        ['Gulls', 8],
+        ['Woodpeckers', 7],
+        ['Toucans', 0]
+    ]);
+
+    const options = {
+        'title': 'Birds by Species Count in Colorado',
+        'width': 500,
+        'height': 400
+    }
+
+    const chart = new google.visualization.PieChart(
+      document.getElementById('chart-container'));
+    chart.draw(data, options);
+}

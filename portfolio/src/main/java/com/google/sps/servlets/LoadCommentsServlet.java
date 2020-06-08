@@ -70,7 +70,7 @@ public class LoadCommentsServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentNumEntity);
 
-    response.sendRedirect("/index.html");      
+    response.sendRedirect("/Comments.html");      
   }
 
   /** Gets number of comments to print */

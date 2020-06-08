@@ -8,101 +8,29 @@
   </head>
   <body>
     <div id="header">
-        <h1>Emma Wenzel</h1>
+      <h1>Emma Wenzel</h1>
     </div>
     <div id="content">
-        <div class="tab">
-            <button onclick="openTab('About')">About Me</button>
-            <button onclick="openTab('Projects')">Projects</button>
-            <button onclick="openTab('More')">More Fun Stuff</button>
-            <button onclick="openTab('Comments')">Questions & Comments</button>
-        </div> 
-    <div id="About" class="tabcontent"> 
+      <div class="tab">
+        <a href="index.html">About Me</a>
+        <a href ="Projects.html">Projects</a>
+        <a href ="More.html">More Fun Stuff</a>
+        <a href ="Comments.html">Questions & Comments</a>
+      </div> 
+      <div>
         <h2>About Me</h2>
-        <p>
+          <p>
             My name is Emma Wenzel; I'm a STEP intern with Google for summer 2020. 
             Starting in August, I'll be a sophomore at the University of Colorado
             Boulder. I like acting and rock climbing, and I'm currently watching 
             Avatar for the first time. 
-        </p>
-        <p> 
+          </p>
+          <p> 
             So far in my academic career, I've taken intro to programming, data
             structures and discrete structures. My strongest language is C++, but I
             can also code in Python and I'm learning JavaScript and HTML now!
-        </p>
-        <img src="/images/IMG_9036.JPG" alt="Photo of me" width = "500">
-      </div>
-      <div id="Projects" class="tabcontent">
-        <h3>Here is a list of projects I've worked on:</h3>
-        <dl>
-            <dt>DNA Sequence Project</dt>
-            <dd>This was my first project in C++; we learned to use string comparison. 
-                You can find this project in 
-                <a href="https://www.linkedin.com/in/emma-wenzel-67b929155/detail/treasury/education:617213860/?entity
-                    Urn=urn%3Ali%3Afsd_profileTreasuryMedia%3A(ACoAACVVnn8BEEwQJKWlerorm-cYAZexvzDsZc0%2C1570422769261)&
-                    section=education%3A617213860&treasuryCount=2">my LinkedIn
-                </a>.
-            </dd>
-            <dt>Pokemon Project</dt>
-            <dd>This was my final project for intro to computing. We
-                used classes and arrays to create a Pokemon Game in the terminal.
-            </dd>
-                <dt>Star Crossed Voyagers: The Crystal Conundrum</dt>
-            <dd>Star Crossed Voyagers is a text based game in the terminal I created with a partner for the T9
-                    hackathon this year. We won best beginner hackers! You can find this project in
-                    <a href="https://github.com/EmmaWenzel/StarCrossedVoyagers-TheCrystalConundrum">my GitHub</a>.
-            </dd>
-                <dt>Data Structures Project</dt>
-            <dd>This was my final project in data structures where we compared linked lists, binary trees, 
-                graphs and hash tables. I completed this project with the same partner as Star Crossed Voyagers 
-                (Allison Palmer, what a gal).
-            </dd>         
-        </dl>
-        <h3>Here are some places you can find me:</h3>
-        <ul>
-            <li><a href="https://github.com/EmmaWenzel">GitHub</a></li>
-            <li><a href="https://www.linkedin.com/in/emma-wenzel-67b929155/">LinkedIn</a></li>
-        </ul>
-      </div>
-      <div id="More" class="tabcontent">
-        <h3>Click here to get a random fact:</h3>
-        <button onclick="addRandomFact()">Facts!</button>
-        <div id="fact-container"></div>
-        <br>
-        <h3>This is a picture of a seagull.</h3>
-        <p> Seagulls are my second favorite
-            type of bird. This particular seagull is <i>french</i>; we'll call him
-            Louis. I found Louis at Le Mont-Saint-Michel. He posed for my picture.
-        </p>
-        <img src="/images/IMG_5916.JPG" alt="seagull?" width = "300">
-        </div>
-        <div id ="Comments" class = "tabcontent">
-            <h3>Have any questions or comments?</h3>
-            <form action ="/data" method = "POST" onsubmit="openTab('Comments')">
-                <div>
-                    <label>Comment:</label>
-                    <input type="text" name ="user-comment" placeholder="Submit them here!" required>
-                    <label>Name:</label>
-                    <input type="text" name="user-name" placeholder="Anonymous">
-                    <input type = "submit" name = "submit" value ="Submit">
-                    <br>
-            </form>
-            <form action="/load-comments" method="POST" onsubmit="openTab('Comments')">
-                <div>
-                    <label>How many previous comments would you like displayed?</label>
-                    <input type="number" name="comment-number" min ="0" required>
-                    <input type = "submit" name = "submit" value ="Load Comments">
-                </div>
-            </form>
-            <br>
-            <button onclick="deleteComments()">Delete all comments</button>
-            <br>
-            <body onload="loadComments()">
-                <h3>Previous Comments</h3>
-                <hr>
-                <ol id="comment-list"></ol>
-            </body>
-        </div>
+          </p>
+          <img src="/images/IMG_9036.JPG" alt="Photo of me" width = "500">
       </div>
     </div>
   </body>

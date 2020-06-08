@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Emma's Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div id="header">
+      <h1>Emma Wenzel</h1>
+    </div>
+    <div id="content">
+      <div class="tab">
+        <a href="index.html">About Me</a>
+        <a href ="Projects.html">Projects</a>
+        <a href ="More.html">More Fun Stuff</a>
+        <a href ="Comments.html">Questions & Comments</a>
+      </div> 
+      <div>
+        <h3>Have any questions or comments?</h3>
+        <form action ="/data" method = "POST" onsubmit="openTab('Comments')">
+          <div>
+            <label>Comment:</label>
+            <input type="text" name ="user-comment" placeholder="Submit them here!" required>
+            <label>Name:</label>
+            <input type="text" name="user-name" placeholder="Anonymous">
+            <input type = "submit" name = "submit" value ="Submit">
+            <br>
+          </div>
+        </form>
+        <form action="/load-comments" method="POST" onsubmit="openTab('Comments')">
+          <div>
+            <label>How many previous comments would you like displayed?</label>
+            <input type="number" name="comment-number" min ="0" max="1000000000" required>
+            <input type = "submit" name = "submit" value ="Load Comments">
+          </div>
+        </form>
+        <br>
+        <button onclick="deleteComments()">Delete all comments</button>
+        <br>
+        <body onload="loadComments()">
+          <h3>Previous Comments</h3>
+          <hr>
+          <ol id="comment-list"></ol>
+        </body>
+      </div>
+    </div>
+  </body>
+</html>

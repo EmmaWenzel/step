@@ -140,7 +140,7 @@ function voteChart() {
     });
 
     const options = {
-      'title': 'Best Birds',
+      'title': 'Votes for the Best Bird',
       'width':600,
       'height':500
     };

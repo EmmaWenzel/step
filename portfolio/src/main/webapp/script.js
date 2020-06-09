@@ -78,7 +78,7 @@ function deleteComments() {
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(birdChart);
 
-/** Creates a chart and adds it to the page */
+/** Creates a pie chart and adds it to the page */
 function birdChart(){
     const data = new google.visualization.DataTable();
     data.addColumn('string', 'Bird');
@@ -98,5 +98,36 @@ function birdChart(){
 
     const chart = new google.visualization.PieChart(
       document.getElementById('chart-container'));
+    chart.draw(data, options);
+}
+
+google.charts.setOnLoadCallback(birdByCountryChart);
+
+/** Creates a geo chart and adds it to the page */
+function birdByCountryChart(){
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Country');
+    data.addColumn('number', 'Species Count');
+    data.addRows([
+        ['Colombia', 1878],
+        ['United States', 860],
+        ['Greenland', 73],
+        ['China', 1288],
+        ['South Africa', 762],
+        ['Australia', 723],
+        ['Argentina', 1004],
+        ['Russia', 661],
+        ['Spain', 382],
+        ['Algeria', 317]
+    ]);
+
+    var options = {
+        title: "Bird Species Count by Country",
+        width: 600,
+        height: 400,
+        bar: {groupWidth: "95%"},
+        legend: { position: "none" },
+    };
+    var chart = new google.visualization.GeoChart(document.getElementById("geo-chart-container"));
     chart.draw(data, options);
 }

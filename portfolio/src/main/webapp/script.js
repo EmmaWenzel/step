@@ -50,23 +50,28 @@ function createCommentElement(comment){
   const commentElement = document.createElement('li');
   const userCommentElement = document.createElement('div');
   const userNameElement = document.createElement('div');
+  const sentimentScoreElement = document.createElement('div');
   const commentSpacing = document.createElement('br');
   
   // deal with anonymous inputs
   if(comment.userName == "" || comment.userName == undefined){
       comment.userName = "Anonymous";
   }
-
+ 
   // populate list elements with name and comment
   userCommentElement.innerText = comment.userComment;
   userNameElement.innerText = ("-" + comment.userName);
+  score = (comment.score).toFixed(1);
+  sentimentScoreElement.innerText = ("Sentiment score: " + score);
   
   // add to list item
   commentElement.appendChild(userCommentElement);
   commentElement.appendChild(userNameElement);
+  commentElement.appendChild(sentimentScoreElement);
   commentElement.appendChild(commentSpacing);
   return commentElement;
 }
+
 
 /** Tells the server to delete all comments. */
 function deleteComments() {

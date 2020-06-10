@@ -45,6 +45,25 @@
         <p> Learn more here:
             <a href="https://www.boulderaudubon.org/birds-of-boulder-county/">Birds of Boulder County</a>
         </p>
+        <br>
+        <h3>Vote for Best Bird</h3>
+        <p>Let's determine the best bird once and for all. Vote now. </p>
+        <form action="/favorite-bird" method="POST">
+            <select name="bird">
+                <option value="Duck">Duck</option>
+                <option value="Toucan">Toucan</option>
+                <option value="Owl">Owl</option>
+                <option value="Hawk">Hawk</option>
+                <option value="Eagle">Eagle</option>
+                <option value="Loon">Loon</option>
+                <option value="Parrot">Parrot</option>
+                <option value="Pigeon">Pigeon</option>
+                <option value="Hummingbird">Hummingbird</option>
+                <option value="Penguin">Penguin</option>
+            </select>
+            <input type = "submit" name = "submit" value ="Submit">
+        </form>
+        <div id="vote-chart-container"></div>
         <h3>The Countries with the Most Birds</h3>
         <p>To dive a little deeper into this bird research, we looked at the total number of bird species
             per country. You can see the total number of bird species for any country as of July 2019 

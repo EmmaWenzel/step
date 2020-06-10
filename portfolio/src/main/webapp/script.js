@@ -125,3 +125,28 @@ function birdByCountryChart(){
         chart.draw(data, options);
     });
 }
+
+google.charts.setOnLoadCallback(voteChart);
+
+/** Fetches bird votes data and uses it to create a chart. */
+function voteChart() {
+  fetch('/favorite-bird').then(response => response.json())
+  .then((birdVotes) => {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Bird');
+    data.addColumn('number', 'Votes');
+    Object.keys(birdVotes).forEach((bird) => {
+      data.addRow([bird, birdVotes[bird]]);
+    });
+
+    const options = {
+      'title': 'Votes for the Best Bird',
+      'width':600,
+      'height':500
+    };
+
+    const chart = new google.visualization.ColumnChart(
+        document.getElementById('vote-chart-container'));
+    chart.draw(data, options);
+  });
+}

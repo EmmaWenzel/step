@@ -14,6 +14,12 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,21 +35,42 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/favorite-bird")
 public class favBirdDataServlet extends HttpServlet {
 
-  private Map<String, Integer> birdVotes = new HashMap<>();
-
+  /**
+  * Fetches data with a query, sorts data into a hash map, 
+  * and translates to JSON to load to the graph
+  */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+      
+    //create and prepare a query
+    Query query = new Query("Bird");
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+    
+    // store each vote in a hash map
+    Map<String, Integer> birdVotes = new HashMap<>();
+    for (Entity entity : results.asIterable()) {
+        String bird = (String) entity.getProperty("birdName");
+        int currentVotes = birdVotes.containsKey(bird) ? birdVotes.get(bird) : 0;
+        birdVotes.put(bird, currentVotes + 1);
+    }
+
+    // translate to json
     response.setContentType("application/json");
     Gson gson = new Gson();
     String json = gson.toJson(birdVotes);
     response.getWriter().println(json);
   }
 
+  /** Stores bird votes in Datastore using entities */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String bird = request.getParameter("bird");
-    int currentVotes = birdVotes.containsKey(bird) ? birdVotes.get(bird) : 0;
-    birdVotes.put(bird, currentVotes + 1);
+
+    Entity birdEntity = new Entity("Bird");
+    birdEntity.setProperty("birdName", request.getParameter("bird"));
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(birdEntity);
 
     response.sendRedirect("/More.html");
   }

@@ -21,7 +21,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.HashSet;
 
-/** Finds options for times to schedule a meeting request */
+/** 
+  Finds options for times to schedule a meeting request.
+  Given all events that occur in the day and a meeting request with attendees
+  that may or may not have conflicting events, returns a list of time ranges
+  during which the requested meeting could occur.
+*/
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
 
@@ -66,12 +71,12 @@ public final class FindMeetingQuery {
 
             for(TimeRange overlapTime : overlapTimes){
 
-                // add an option for free time before the conflicting meeting
+                // add a meeting time to 'times' list that occurs before the conflict
                 if(overlapTime.start() < event.getWhen().start() && request.getDuration() <= (event.getWhen().start() - overlapTime.start())){
                     TimeRange beforeEvent = TimeRange.fromStartEnd(overlapTime.start(), event.getWhen().start(), false);
                     times.add(beforeEvent);
                 }
-                // add an option for free time after the conflicting meeting
+                // add a meeting time to 'times' list that occurs after the conflict
                 if(overlapTime.end() > event.getWhen().end() && request.getDuration() <= overlapTime.end() - event.getWhen().end()){
                     TimeRange afterEvent = TimeRange.fromStartEnd(event.getWhen().end(), overlapTime.end(), false);
                     times.add(afterEvent);

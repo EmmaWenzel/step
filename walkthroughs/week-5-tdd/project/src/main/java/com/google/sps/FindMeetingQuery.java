@@ -44,12 +44,11 @@ public final class FindMeetingQuery {
     }
     
     for(Event event : events){
-
-        Collection<String> eventAttendees = event.getAttendees();
+        
         boolean relevantMeeting = false;
 
         // a relevant event contains a person from the requested meeting
-        for(String person : eventAttendees){
+        for(String person : event.getAttendees()){
             if(attendees.contains(person)){
                 relevantMeeting = true;
             }

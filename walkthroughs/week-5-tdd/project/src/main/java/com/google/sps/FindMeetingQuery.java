@@ -44,19 +44,19 @@ public final class FindMeetingQuery {
     }
     
     for(Event event : events){
-        
-        boolean relevantMeeting = false;
 
-        // a relevant event contains a person from the requested meeting
+        boolean conflictingMeeting = false;
+
+        // a conflicting event contains a person from the requested meeting
         for(String person : event.getAttendees()){
             if(attendees.contains(person)){
-                relevantMeeting = true;
+                conflictingMeeting = true;
             }
         }
 
-        if(relevantMeeting){
+        if(conflictingMeeting){
 
-            // find options that overlap with the relevant meeting
+            // find options that overlap with the conflicting meeting
             Collection<TimeRange> overlapTimes = new ArrayList<>();
             for(TimeRange time : times){
                 if(time.overlaps(event.getWhen())){
@@ -66,12 +66,12 @@ public final class FindMeetingQuery {
 
             for(TimeRange overlapTime : overlapTimes){
 
-                // add an option for free time before the relevant meeting
+                // add an option for free time before the conflicting meeting
                 if(overlapTime.start() < event.getWhen().start() && request.getDuration() <= (event.getWhen().start() - overlapTime.start())){
                     TimeRange beforeEvent = TimeRange.fromStartEnd(overlapTime.start(), event.getWhen().start(), false);
                     times.add(beforeEvent);
                 }
-                // add an option for free time after the relevant meeting
+                // add an option for free time after the conflicting meeting
                 if(overlapTime.end() > event.getWhen().end() && request.getDuration() <= overlapTime.end() - event.getWhen().end()){
                     TimeRange afterEvent = TimeRange.fromStartEnd(event.getWhen().end(), overlapTime.end(), false);
                     times.add(afterEvent);

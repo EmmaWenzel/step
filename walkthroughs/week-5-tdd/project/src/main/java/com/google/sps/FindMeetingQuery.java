@@ -32,8 +32,7 @@ public final class FindMeetingQuery {
         return noTimes;
     }
 
-    Collection<String> attendees = new HashSet<>();
-    attendees = request.getAttendees();
+    Collection<String> attendees = request.getAttendees();
 
     // initialize options as the whole day
     Collection<TimeRange> times = new ArrayList<>();
@@ -46,8 +45,7 @@ public final class FindMeetingQuery {
     
     for(Event event : events){
 
-        Collection<String> eventAttendees = new HashSet<>();
-        eventAttendees = event.getAttendees();
+        Collection<String> eventAttendees = event.getAttendees();
         boolean relevantMeeting = false;
 
         // a relevant event contains a person from the requested meeting

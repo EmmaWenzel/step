@@ -24,8 +24,8 @@ import java.util.HashSet;
 /** 
   Finds options for times to schedule a meeting request.
   Given all events that occur in the day and a meeting request with attendees
-  that may or may not have conflicting events, returns a list of time ranges
-  during which the requested meeting could occur.
+  that may or may not have conflicting events, returns a set of non-overlapping time intervals 
+  of duration at least the requested meeting length, during which all attendees are available.
 */
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {

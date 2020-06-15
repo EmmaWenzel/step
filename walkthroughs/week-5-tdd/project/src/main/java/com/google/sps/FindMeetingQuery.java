@@ -14,10 +14,80 @@
 
 package com.google.sps;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.HashSet;
 
+/** 
+  Finds options for times to schedule a meeting request.
+  Given all events that occur in the day and a meeting request with attendees
+  that may or may not have conflicting events, returns a set of non-overlapping time intervals 
+  of duration at least the requested meeting length, during which all attendees are available.
+*/
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    throw new UnsupportedOperationException("TODO: Implement this method.");
+
+    // no options for too long of a request
+    if(request.getDuration() > TimeRange.WHOLE_DAY.duration())
+    {
+        Collection<TimeRange> noTimes = Arrays.asList();
+        return noTimes;
+    }
+
+    Collection<String> attendees = request.getAttendees();
+
+    // initialize options as the whole day
+    Collection<TimeRange> times = new ArrayList<>();
+    times.add(TimeRange.WHOLE_DAY);
+
+    // if there are no attendees the meeting can be any time of the day 
+    if(attendees.isEmpty()){
+        return times; 
+    }
+    
+    for(Event event : events){
+
+        boolean conflictingMeeting = false;
+
+        // a conflicting event contains a person from the requested meeting
+        for(String person : event.getAttendees()){
+            if(attendees.contains(person)){
+                conflictingMeeting = true;
+            }
+        }
+
+        if(conflictingMeeting){
+
+            // find options that overlap with the conflicting meeting
+            Collection<TimeRange> overlapTimes = new ArrayList<>();
+            for(TimeRange time : times){
+                if(time.overlaps(event.getWhen())){
+                    overlapTimes.add(time);
+                }
+            }
+
+            for(TimeRange overlapTime : overlapTimes){
+
+                // add a meeting time to 'times' list that occurs before the conflict
+                if(overlapTime.start() < event.getWhen().start() && request.getDuration() <= (event.getWhen().start() - overlapTime.start())){
+                    TimeRange beforeEvent = TimeRange.fromStartEnd(overlapTime.start(), event.getWhen().start(), false);
+                    times.add(beforeEvent);
+                }
+                // add a meeting time to 'times' list that occurs after the conflict
+                if(overlapTime.end() > event.getWhen().end() && request.getDuration() <= overlapTime.end() - event.getWhen().end()){
+                    TimeRange afterEvent = TimeRange.fromStartEnd(event.getWhen().end(), overlapTime.end(), false);
+                    times.add(afterEvent);
+                }
+
+                //remove overlap time
+                times.remove(overlapTime); 
+            }
+        }
+    }
+
+    return times;
   }
 }

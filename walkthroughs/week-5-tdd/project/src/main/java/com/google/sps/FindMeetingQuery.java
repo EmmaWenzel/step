@@ -14,10 +14,78 @@
 
 package com.google.sps;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.HashSet;
 
+/** Finds options for times to schedule a meeting request */
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    throw new UnsupportedOperationException("TODO: Implement this method.");
+
+    // no options for too long of a request
+    if(request.getDuration() > TimeRange.WHOLE_DAY.duration())
+    {
+        Collection<TimeRange> noTimes = Arrays.asList();
+        return noTimes;
+    }
+
+    Collection<String> attendees = new HashSet<>();
+    attendees = request.getAttendees();
+
+    // initialize options as the whole day
+    Collection<TimeRange> times = new ArrayList<>();
+    times.add(TimeRange.WHOLE_DAY);
+
+    // if there are no attendees the meeting can be any time of the day 
+    if(attendees.isEmpty()){
+        return times; 
+    }
+    
+    for(Event event : events){
+
+        Collection<String> eventAttendees = new HashSet<>();
+        eventAttendees = event.getAttendees();
+        boolean relevantMeeting = false;
+
+        // a relevant event contains a person from the requested meeting
+        for(String person : eventAttendees){
+            if(attendees.contains(person)){
+                relevantMeeting = true;
+            }
+        }
+
+        if(relevantMeeting){
+
+            // find options that overlap with the relevant meeting
+            Collection<TimeRange> overlapTimes = new ArrayList<>();
+            for(TimeRange time : times){
+                if(time.overlaps(event.getWhen())){
+                    overlapTimes.add(time);
+                }
+            }
+
+            for(TimeRange overlapTime : overlapTimes){
+
+                // add an option for free time before the relevant meeting
+                if(overlapTime.start() < event.getWhen().start() && request.getDuration() <= (event.getWhen().start() - overlapTime.start())){
+                    TimeRange beforeEvent = TimeRange.fromStartEnd(overlapTime.start(), event.getWhen().start(), false);
+                    times.add(beforeEvent);
+                }
+                // add an option for free time after the relevant meeting
+                if(overlapTime.end() > event.getWhen().end() && request.getDuration() <= overlapTime.end() - event.getWhen().end()){
+                    TimeRange afterEvent = TimeRange.fromStartEnd(event.getWhen().end(), overlapTime.end(), false);
+                    times.add(afterEvent);
+                }
+
+                //remove overlap time
+                times.remove(overlapTime); 
+            }
+        }
+    }
+
+    return times;
   }
 }

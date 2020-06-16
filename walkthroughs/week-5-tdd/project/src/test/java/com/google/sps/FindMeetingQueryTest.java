@@ -274,7 +274,7 @@ public final class FindMeetingQueryTest {
   } 
 
   @Test
-  public void notEnoughRoomForOptional() {
+  public void notEnoughRoomForOptionalAttendees() {
     // Based on justEnoughRoom, add an optional attendee B who has an event between 8:30 and 8:45. 
     // The optional attendee should be ignored since considering their schedule 
     // would result in a time slot smaller than the requested time.
@@ -339,7 +339,7 @@ public final class FindMeetingQueryTest {
     // Events  : |--A------|
     //                     |----B------|
     // Day     : |---------------------|
-    // Options :        |----|     |---|
+    // Options : 
 
     Collection<Event> events = Arrays.asList(
         new Event("Event 1", TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_1000AM, false),

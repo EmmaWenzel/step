@@ -20,17 +20,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.HashSet;
+import java.util.Comparator;
 
 /** 
   Finds options for times to schedule a meeting request.
-
-  Given all events that occur in the day and a meeting request with attendees
-  that may or may not have conflicting events, returns a set of non-overlapping time intervals 
-  of duration at least the requested meeting length, during which all attendees are available.
-  
-  If there are optional attendees, return times that are available for both optional and 
-  mandatory attendees. If there are no such times, return the times available
-  for just mandatory attendees.
 */
 public final class FindMeetingQuery {
 
@@ -80,6 +73,15 @@ public final class FindMeetingQuery {
     return times;
   }
 
+  /** 
+    Given all events that occur in the day and a meeting request with attendees
+    that may or may not have conflicting events, returns a set of non-overlapping time intervals 
+    of duration at least the requested meeting length, during which all attendees are available.
+  
+    If there are optional attendees, return times that are available for both optional and 
+    mandatory attendees. If there are no such times, return the times available
+    for just mandatory attendees.
+  */
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
 
     // no options for too long of a request
@@ -104,7 +106,7 @@ public final class FindMeetingQuery {
     times = removeConflictingTimes(times, attendees, events, request.getDuration());
 
     // save the times before considering optional attendees in case optional attendees aren't available
-    Collection<TimeRange> timesBeforeOptional = new ArrayList<>();
+    ArrayList<TimeRange> timesBeforeOptional = new ArrayList<>();
     for(TimeRange time : times){
         timesBeforeOptional.add(time);
     }

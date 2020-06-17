@@ -28,7 +28,7 @@ import java.util.Comparator;
 public final class FindMeetingQuery {
 
   /** Removes TimeRanges from times collection that are unavailable for the given attendees */
-  private Collection<TimeRange> removeConflictingTimes(Collection<TimeRange> times, Collection<String> attendees, Collection<Event> events, long duration){
+  private ArrayList<TimeRange> removeConflictingTimes(ArrayList<TimeRange> times, Collection<String> attendees, Collection<Event> events, long duration){
 
     for(Event event : events){
 
@@ -95,7 +95,7 @@ public final class FindMeetingQuery {
     Collection<String> optionalAttendees = request.getOptionalAttendees();
 
     // initialize options as the whole day
-    Collection<TimeRange> times = new ArrayList<>();
+    ArrayList<TimeRange> times = new ArrayList<>();
     times.add(TimeRange.WHOLE_DAY);
 
     // if there are no attendees the meeting can be any time of the day 
@@ -120,6 +120,8 @@ public final class FindMeetingQuery {
     if(times.isEmpty() && !(attendees.isEmpty())){
         times = timesBeforeOptional;
     }
+
+    Collections.sort(times, TimeRange.ORDER_BY_START);
 
     return times;
   }

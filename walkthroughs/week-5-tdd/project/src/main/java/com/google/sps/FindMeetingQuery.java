@@ -28,7 +28,7 @@ import java.util.Comparator;
 public final class FindMeetingQuery {
 
   /** Removes TimeRanges from times collection that are unavailable for the given attendees */
-  private ArrayList<TimeRange> removeConflictingTimes(ArrayList<TimeRange> times, Collection<String> attendees, Collection<Event> events, long duration){
+  private ArrayList<TimeRange> removeConflictingTimes(ArrayList<TimeRange> times, Collection<String> attendees, Collection<Event> events, long duration, boolean optimizing){
 
     for(Event event : events){
 
@@ -65,7 +65,9 @@ public final class FindMeetingQuery {
                 }
 
                 //remove overlap time
-                times.remove(overlapTime); 
+                if(!optimizing){
+                    times.remove(overlapTime);
+                }
             }
         }
     }
@@ -80,7 +82,7 @@ public final class FindMeetingQuery {
   
     If there are optional attendees, return times that are available for both optional and 
     mandatory attendees. If there are no such times, return the times available
-    for just mandatory attendees.
+    for mandatory attendees and the greatest number of optional attendees. 
   */
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
 
@@ -103,7 +105,7 @@ public final class FindMeetingQuery {
         return times; 
     }
     
-    times = removeConflictingTimes(times, attendees, events, request.getDuration());
+    times = removeConflictingTimes(times, attendees, events, request.getDuration(), false);
 
     // save the times before considering optional attendees in case optional attendees aren't available
     ArrayList<TimeRange> timesBeforeOptional = new ArrayList<>();
@@ -113,12 +115,51 @@ public final class FindMeetingQuery {
 
     // optional attendees
     // repeat the same process as the manatory attendees to narrow time options to fit optional attendees
+    
+    times = removeConflictingTimes(times, optionalAttendees, events, request.getDuration(), false);
 
-    times = removeConflictingTimes(times, optionalAttendees, events, request.getDuration());
-
-    // if optional attendees are unavailable, return times for mandatory attendees
+    // If no time exists for all optional and mandatory attendees, find the time slot(s) 
+    // that allow mandatory attendees and the greatest possible number of optional attendees to attend.
     if(times.isEmpty() && !(attendees.isEmpty())){
+
         times = timesBeforeOptional;
+
+        // breaks times into smaller peices that are available for different optional attendees
+        times = removeConflictingTimes(times, optionalAttendees, events, request.getDuration(), true);
+
+        int lowestConflicts = optionalAttendees.size() - 1;
+        ArrayList<TimeRange> mostPeopleAvailable = new ArrayList<>();
+
+        for(TimeRange time : times){
+        
+            int conflicts = 0; 
+
+            // for each event, if it overlaps with the possible time, count the amount of optional 
+            // attendees that are going to that event. The final count of conflicts will be 
+            // the number of people who conflict with that time 
+            for(Event event : events){
+                if((event.getWhen()).overlaps(time)){
+                    for(String person : event.getAttendees()){
+                        if(optionalAttendees.contains(person)){
+                            conflicts++;
+                        }
+                    }
+                }
+            }
+
+            // if conflicts is lower than the current lowest, replace it with that option
+            // if it is equal, add it as an option
+            if(conflicts < lowestConflicts){
+                mostPeopleAvailable.clear();
+                mostPeopleAvailable.add(time);
+            }else if(conflicts == lowestConflicts){
+                mostPeopleAvailable.add(time);
+            }
+        }
+
+        if(!mostPeopleAvailable.isEmpty()){
+            times = mostPeopleAvailable;
+        }
     }
 
     Collections.sort(times, TimeRange.ORDER_BY_START);

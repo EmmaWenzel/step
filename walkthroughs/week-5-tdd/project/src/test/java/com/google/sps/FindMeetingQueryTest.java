@@ -511,7 +511,8 @@ public final class FindMeetingQueryTest {
 
   @Test
   public void possibleTimesForSomeOptionalAttendees() {
-    // Two events in reverse chronological order with a possible time between them 
+    // When optional attendees aren't available, return times where
+    // the greatest number of optional employees (in this case 1) are available
     //
     // Events  :         |--A---------|
     //           |----B--|

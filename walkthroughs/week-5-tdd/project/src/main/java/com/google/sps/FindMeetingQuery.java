@@ -28,7 +28,7 @@ import java.util.Comparator;
 public final class FindMeetingQuery {
 
   /** Removes TimeRanges from times collection that are unavailable for the given attendees */
-  private ArrayList<TimeRange> removeConflictingTimes(ArrayList<TimeRange> times, Collection<String> attendees, Collection<Event> events, long duration, boolean optimizing){
+  private ArrayList<TimeRange> removeConflictingTimes(ArrayList<TimeRange> times, Collection<String> attendees, Collection<Event> events, long duration, boolean isOptimizingMeetingTimes){
 
     for(Event event : events){
 
@@ -65,7 +65,7 @@ public final class FindMeetingQuery {
                 }
 
                 //remove overlap time
-                if(!optimizing){
+                if(!isOptimizingMeetingTimes){
                     times.remove(overlapTime);
                 }
             }
@@ -128,7 +128,7 @@ public final class FindMeetingQuery {
         times = removeConflictingTimes(times, optionalAttendees, events, request.getDuration(), true);
 
         int lowestConflicts = optionalAttendees.size() - 1;
-        ArrayList<TimeRange> mostPeopleAvailable = new ArrayList<>();
+        ArrayList<TimeRange> bestTimeRanges = new ArrayList<>();
 
         for(TimeRange time : times){
         
@@ -150,15 +150,15 @@ public final class FindMeetingQuery {
             // if conflicts is lower than the current lowest, replace it with that option
             // if it is equal, add it as an option
             if(conflicts < lowestConflicts){
-                mostPeopleAvailable.clear();
-                mostPeopleAvailable.add(time);
+                bestTimeRanges.clear();
+                bestTimeRanges.add(time);
             }else if(conflicts == lowestConflicts){
-                mostPeopleAvailable.add(time);
+                bestTimeRanges.add(time);
             }
         }
 
-        if(!mostPeopleAvailable.isEmpty()){
-            times = mostPeopleAvailable;
+        if(!bestTimeRanges.isEmpty()){
+            times = bestTimeRanges;
         }
     }
 

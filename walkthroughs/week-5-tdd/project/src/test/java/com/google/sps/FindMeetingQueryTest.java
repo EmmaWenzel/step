@@ -508,6 +508,101 @@ public final class FindMeetingQueryTest {
 
     Assert.assertEquals(expected, actual);
   }
+
+  @Test
+  public void possibleTimesForSomeOptionalAttendees() {
+    // When optional attendees aren't available, return times where
+    // the greatest number of optional employees (in this case 1) are available
+    //
+    // Events  :         |--A---------|
+    //           |----B--|
+    //                             |---C---|
+    // Day     : |-------------------------|
+    // Options : |-------|            |----| 
+
+    Collection<Event> events = Arrays.asList(
+        new Event("Event 2", TimeRange.fromStartEnd(TIME_0800AM, TIME_1100AM, false),
+            Arrays.asList(PERSON_A)),
+        new Event("Event 1", TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0800AM, false),
+            Arrays.asList(PERSON_B)),
+        new Event("Event 3", TimeRange.fromStartEnd(TIME_1000AM, TimeRange.END_OF_DAY, true),
+            Arrays.asList(PERSON_C)));
+
+    MeetingRequest request =
+        new MeetingRequest(Arrays.asList(PERSON_A), DURATION_30_MINUTES);
+    request.addOptionalAttendee(PERSON_B);
+    request.addOptionalAttendee(PERSON_C);
+
+    Collection<TimeRange> actual = query.query(events, request);
+    Collection<TimeRange> expected =
+        Arrays.asList(TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0800AM, false),
+            TimeRange.fromStartEnd(TIME_1100AM, TimeRange.END_OF_DAY, true));
+
+    Assert.assertEquals(expected, actual);
+  }
+
+  @Test
+  public void possibleTimeForSomeOptionalAttendees() {
+    // When optional attendees aren't available, return the time where the greatest number of optional
+    // employees are available
+    //
+    // Events  :         |--A---------|
+    //           |----B--|
+    //           |---C---------------------|
+    // Day     : |-------------------------|
+    // Options :                      |----| 
+
+    Collection<Event> events = Arrays.asList(
+        new Event("Event 1", TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0800AM, false),
+            Arrays.asList(PERSON_B)),
+        new Event("Event 2", TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TimeRange.END_OF_DAY, true),
+            Arrays.asList(PERSON_C)),
+        new Event("Event 3", TimeRange.fromStartEnd(TIME_0800AM, TIME_1000AM, false),
+            Arrays.asList(PERSON_A)));
+
+    MeetingRequest request =
+        new MeetingRequest(Arrays.asList(PERSON_A), DURATION_60_MINUTES);
+    request.addOptionalAttendee(PERSON_B);
+    request.addOptionalAttendee(PERSON_C);
+
+    Collection<TimeRange> actual = query.query(events, request);
+    Collection<TimeRange> expected =
+        Arrays.asList(TimeRange.fromStartEnd(TIME_1000AM, TimeRange.END_OF_DAY, true));
+
+    Assert.assertEquals(expected, actual);
+  }
+
+  @Test
+  public void breakPossibleTimeInTwo() {
+    // Given that optional attendees aren't available, return the time where the most attendees
+    // are available, where the time that the mandatory attendee is available must be broken up
+    //
+    // Events  : |---C---|
+    //                        |----B-------|
+    //                        |----A-------|
+    //                   |--A-|
+    // Day     : |-------------------------|
+    // Options :         |----|
+
+    Collection<Event> events = Arrays.asList(
+        new Event("Event 2", TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0800AM, false),
+            Arrays.asList(PERSON_C)),
+        new Event("Event 2", TimeRange.fromStartEnd(TIME_0800AM, TIME_1000AM, false),
+            Arrays.asList(PERSON_A)),
+        new Event("Event 3", TimeRange.fromStartEnd(TIME_1000AM, TimeRange.END_OF_DAY, true),
+            Arrays.asList(PERSON_B, PERSON_A)));
+
+    MeetingRequest request =
+        new MeetingRequest(Arrays.asList(PERSON_C), DURATION_60_MINUTES);
+    request.addOptionalAttendee(PERSON_A);
+    request.addOptionalAttendee(PERSON_B);
+
+    Collection<TimeRange> actual = query.query(events, request);
+    Collection<TimeRange> expected =
+        Arrays.asList(TimeRange.fromStartEnd(TIME_0800AM, TIME_1000AM, false));
+
+    Assert.assertEquals(expected, actual);
+  }
 }
 
 
